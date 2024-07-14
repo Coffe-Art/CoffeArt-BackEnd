@@ -1,18 +1,17 @@
-// src/models/comprador.js
 const db = require('../utils/db');
 
 const Comprador = {
-    create: (nombre, contrasena, correo_electronico, telefono, codigopostal, idempleado, callback) => {
-        const query = 'INSERT INTO comprador (nombre, contrasena, correo_electronico, telefono, codigopostal, idempleado) VALUES (?, ?, ?, ?, ?, ?)';
-        db.query(query, [nombre, contrasena, correo_electronico, telefono, codigopostal, idempleado], callback);
+    create: (nombre, nombreUsuario, contrasena, direccion, ciudad, codigoPostal, telefono, correo_electronico, callback) => {
+        const query = 'CALL CreateComprador(?, ?, ?, ?, ?, ?, ?, ?)';
+        db.query(query, [nombre, nombreUsuario, contrasena, direccion, ciudad, codigoPostal, telefono, correo_electronico], callback);
     },
     findByEmail: (email, callback) => {
         const query = 'SELECT * FROM comprador WHERE correo_electronico = ?';
         db.query(query, [email], callback);
     },
     update: (email, updates, callback) => {
-        const query = 'UPDATE comprador SET nombre = ?, contrasena = ?, telefono = ?, codigopostal = ?, idempleado = ? WHERE correo_electronico = ?';
-        db.query(query, [updates.nombre, updates.contrasena, updates.telefono, updates.codigopostal, updates.idempleado, email], callback);
+        const query = 'UPDATE comprador SET nombre = ?, nombreUsuario = ?, contrasena = ?, direccion = ?, ciudad = ?, codigoPostal = ?, telefono = ? WHERE correo_electronico = ?';
+        db.query(query, [updates.nombre, updates.nombreUsuario, updates.contrasena, updates.direccion, updates.ciudad, updates.codigoPostal, updates.telefono, email], callback);
     }
 };
 

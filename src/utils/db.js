@@ -1,22 +1,19 @@
-// db.js
-const mysql = require('mysql2');
+const mysql = require('mysql');
 const dotenv = require('dotenv');
-
 dotenv.config();
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root', // Ensure this user has access
-    database: 'CoffeArtApi',
-    JWT_SECRET: 'h78h'
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    database: process.env.DB_NAME,
 });
 
-connection.connect((err) => {
+db.connect((err) => {
     if (err) {
-        console.error('Error connecting to the database:', err);
+        console.error('Error connecting to the database:', err.stack);
         return;
     }
     console.log('Connected to the database.');
 });
 
-module.exports = connection; // Export the connection
+module.exports = db;

@@ -1,41 +1,31 @@
-// src/controllers/authController.js
 const authService = require('../services/authService');
-const Administrador = require('../models/administrador');
-const Empleado = require('../models/empleado');
-const Comprador = require('../models/comprador');
 
 const register = async (req, res) => {
     try {
-        const { tipoUsuario, nombre, contrasena, correo_electronico, telefono, codigopostal, idempleado } = req.body;
+        console.log("Register endpoint hit");
+        const { tipoUsuario, nombre, nombreUsuario, contrasena, direccion, ciudad, correo_electronico, telefono, codigopostal } = req.body;
 
-        // Determinar qué modelo usar según el tipo de usuario
-        let usuarioModel;
-        if (tipoUsuario === 'administrador') {
-            usuarioModel = Administrador;
-        } else if (tipoUsuario === 'empleado') {
-            usuarioModel = Empleado;
-        } else if (tipoUsuario === 'comprador') {
-            usuarioModel = Comprador;
+        if (['administrador', 'empleado', 'comprador'].includes(tipoUsuario)) {
+            await authService.register(tipoUsuario, nombre, nombreUsuario, contrasena, direccion, ciudad, correo_electronico, telefono, codigopostal);
+            res.status(201).send('Usuario registrado con éxito');
         } else {
             return res.status(400).send('Tipo de usuario no válido');
         }
-
-        // Llamar al servicio de autenticación para registrar al usuario
-        await authService.register(usuarioModel, nombre, contrasena, correo_electronico, telefono, codigopostal, idempleado);
-        res.status(201).send('Usuario registrado con éxito');
     } catch (err) {
+        console.error(err.message);
         res.status(500).send(err.message);
     }
 };
 
 const login = async (req, res) => {
     try {
-        const { tipoUsuario, correo_electronico, contrasena } = req.body; // Incluir tipoUsuario aquí
+        console.log("Login endpoint hit");
+        const { tipoUsuario, correo_electronico, contrasena } = req.body;
 
-        // Llamar al servicio de autenticación para iniciar sesión
-        const token = await authService.login(tipoUsuario, correo_electronico, contrasena); // Pasar tipoUsuario como primer parámetro
+        const token = await authService.login(tipoUsuario, correo_electronico, contrasena);
         res.json({ token });
     } catch (err) {
+        console.error(err.message);
         res.status(400).send(err.message);
     }
 };
