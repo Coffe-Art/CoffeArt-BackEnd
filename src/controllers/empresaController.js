@@ -2,9 +2,9 @@ const Empresa = require('../models/empresa');
 
 // Controlador para crear una empresa
 exports.createEmpresa = (req, res) => {
-    const { nombre, direccion, idadministrador } = req.body;
-    console.log('Datos recibidos:', nombre, direccion, idadministrador);
-    Empresa.create(nombre, direccion, idadministrador, (err, result) => {
+    const { nombre, direccion, descripcion, idadministrador } = req.body;
+    console.log('Datos recibidos:', nombre, direccion, descripcion, idadministrador);
+    Empresa.create(nombre, direccion, descripcion, idadministrador, (err, result) => {
         if (err) {
             console.error('Error al crear empresa:', err);
             res.status(500).json({ error: 'Error interno del servidor' });
@@ -34,8 +34,8 @@ exports.getEmpresa = (req, res) => {
 // Controlador para actualizar detalles de una empresa
 exports.updateEmpresa = (req, res) => {
     const { codigoempresa } = req.params;
-    const { nombre, direccion, idadministrador } = req.body;
-    Empresa.update(codigoempresa, nombre, direccion, idadministrador, (err, result) => {
+    const { nombre, direccion, descripcion, idadministrador } = req.body;
+    Empresa.update(codigoempresa, nombre, direccion, descripcion, idadministrador, (err, result) => {
         if (err) {
             console.error('Error al actualizar empresa:', err);
             res.status(500).json({ error: 'Error interno del servidor' });

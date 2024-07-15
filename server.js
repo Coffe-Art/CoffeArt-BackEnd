@@ -10,5 +10,5 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/empresa', empresaRoutes); // Usa las rutas de la empresa bajo la URL base '/api/empresa'
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3306;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
