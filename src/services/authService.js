@@ -1,10 +1,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const db = require('../utils/db');
+const pool = require('../bd'); 
 const { promisify } = require('util');
 
-// Promisify the query function
-const query = promisify(db.query).bind(db);
+
+const query = promisify(pool.query).bind(pool);
 
 const register = async (usuarioModel, nombre, nombreUsuario, contrasena, direccion, ciudad, correo_electronico, telefono, codigopostal) => {
     try {
